@@ -9,13 +9,19 @@ from two_layer_net import TwoLayerNet
 
 # 데이터 읽기
 # (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
-player_file = open('player_datasets/player20.csv', 'r')
-match_file = open('match_datasets/match19.csv', 'r')
-rank_file = open('rank_datasets/rank20.csv', 'r')
+player_file = open('player_datasets/player19-20.csv', 'r')
+match_file = open('match_datasets/match19-20.csv', 'r')
+rank_file = open('rank_datasets/rank19-20.csv', 'r')
+lineup_file = open('lineup_datasets/lineup19-20.csv', 'r')
 
 player_data = csv.reader(player_file)
 match_data = csv.reader(match_file)
 rank_data = csv.reader(rank_file)
+lineup_data = csv.reader(lineup_file)
+
+# match_data : 첫번째 학습의 결과물
+# lineup -> team(home / away) -> player_stat -> match_data (62)
+# 선수 22명의 능력치가 하나의 데이터입력
 
 train_dict = {}
 for data in rank_data:

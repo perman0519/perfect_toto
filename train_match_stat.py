@@ -51,7 +51,7 @@ for idx, lineup in enumerate(lineup_data): # line_up 한줄 씩
         # print(lineup[col + 1], lineup[col], away_team)
         player_num = lineup[col]
         lineup_stats += get_player_stat(player_num, away_team, lineup[col + 1])
-    train_data.append(lineup_stats) # 경기당 선수 22명의 stats
+    # train_data.append(lineup_stats) # 경기당 선수 22명의 stats
     # print(len(lineup_stats))
     train_data.append(lineup_stats)
 

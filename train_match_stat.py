@@ -10,10 +10,10 @@ from two_layer_net import TwoLayerNet
 
 # 데이터 읽기
 # (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True, one_hot_label=True)
-player_file = open('player_datasets/player19-20.csv', 'r')
-match_file = open('match_datasets/match19-20.csv', 'r')
-rank_file = open('rank_datasets/rank19-20.csv', 'r')
-lineup_file = open('lineup_datasets/lineup19-20.csv', 'r')
+player_file = open('player_datasets/player23-24.csv', 'r')
+match_file = open('match_datasets/match23-24.csv', 'r')
+rank_file = open('rank_datasets/rank23-24.csv', 'r')
+lineup_file = open('lineup_datasets/lineup23-24.csv', 'r')
 
 player_data = csv.reader(player_file)
 player_data = list(player_data)
@@ -26,13 +26,15 @@ lineup_data = csv.reader(lineup_file)
 # lineup -> team(home / away) -> player_stat -> match_data (62)
 # 선수 22명의 능력치가 하나의 데이터입력
 
-def get_player_stat(player_num, player_team):
+# tmp = dict()
+
+def get_player_stat(player_num, player_team, name):
     for player_info in player_data:
         # print(player_info[1], player_info[2])
         if player_num == player_info[1] and player_team == player_info[2]:
-            print(player_info[4:])
+            # print(player_info[4:])
             return player_info[4:]
-    print("[]")
+    # tmp[name] = [player_team, player_num]
     return []
 
 train_data = []
@@ -41,22 +43,25 @@ for idx, lineup in enumerate(lineup_data): # line_up 한줄 씩
     lineup_stats = []
     home_team = lineup[1] # home team 이름
     away_team = lineup[2] # away team 이름
-    print(home_team, "vs", away_team)
     for col in range(3, 25, 2):
-        print(lineup[col + 1], lineup[col], home_team)
+        # print(lineup[col + 1], lineup[col], home_team)
         player_num = lineup[col]
-        lineup_stats += get_player_stat(player_num, home_team)
+        lineup_stats += get_player_stat(player_num, home_team, lineup[col + 1])
     for col in range(25, len(lineup), 2):
-        print(lineup[col + 1], lineup[col], away_team)
+        # print(lineup[col + 1], lineup[col], away_team)
         player_num = lineup[col]
-        lineup_stats += get_player_stat(player_num, away_team)
-    # train_data.append(lineup_stats) # 경기당 선수 22명의 stats
-    print(len(lineup_stats))
+        lineup_stats += get_player_stat(player_num, away_team, lineup[col + 1])
+    train_data.append(lineup_stats) # 경기당 선수 22명의 stats
+    # print(len(lineup_stats))
     train_data.append(lineup_stats)
 
 train_datas = np.array(train_data)
 print(train_datas)
 print(train_datas.shape)
+# print(len(tmp.keys()))
+
+# for key, value in tmp.items():
+#     print(key, value)
 '''
 
 network = TwoLayerNet(input_size=748, hidden_size=100, output_size=62)

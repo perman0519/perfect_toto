@@ -23,7 +23,7 @@ class TwoLayerNet:
         self.layers['Relu1'] = Relu()
         self.layers['Affine2'] = Affine(self.params['W2'], self.params['b2'])
 
-        self.lastLayer = SoftmaxWithLoss()
+        self.lastLayer = totoWithLoss()
         
     def predict(self, x):
         for layer in self.layers.values():

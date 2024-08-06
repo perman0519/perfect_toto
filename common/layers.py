@@ -90,6 +90,43 @@ class SoftmaxWithLoss:
             dx = dx / batch_size
 
         return dx
+    
+class totoWithLoss:
+    def __init__(self):
+        self.loss = None # 손실함수
+        self.y = None    # softmax의 출력
+        self.t = None    # 정답 레이블(원-핫 인코딩 형태)
+        self.epsilon = 0.0001
+
+    '''
+    x = predict_data
+    t = answer_data
+    y = loss_data
+    '''
+    def forward(self, x, t): 
+        self.t = t
+        # x[x == 0] = self.epsilon
+        # t[t == 0] = self.epsilon
+        self.y = t - x
+        self.loss = self.y
+
+        return self.loss
+
+    def backward(self, dout=1):
+        # batch_size = self.t.shape[0]
+        # if self.t.size == self.y.size: # 정답 레이블이 원-핫 인코딩 형태일 때
+        #     dx = (self.y - self.t) / batch_size
+        # else:
+        dx = self.y.copy()
+        # np.arange(batch_size) => [0, 1, 2]
+        # self.t = [2, 1, 1]
+        # dx[np.arange(batch_size), self.t] -= 1
+        # dx[0][2] -= 1
+        # dx[1][1] -= 1
+        # dx[2][1] -= 1
+        # dx = dx / batch_size
+
+        return -dx
 
 
 class Dropout:

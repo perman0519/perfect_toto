@@ -107,6 +107,7 @@ class totoWithLoss:
         self.t = t
         # x[x == 0] = self.epsilon
         # t[t == 0] = self.epsilon
+        # print('x: ', x)
         self.y = t - x
         self.loss = self.y
 
